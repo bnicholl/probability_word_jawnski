@@ -10,14 +10,9 @@
 #include <vector>
 #include <stdio.h>
 #include <string.h>
-#include </Users/bennicholl/Desktop/dlib/dlib/bayes_utils.h>
-#include </Users/bennicholl/Desktop/dlib/dlib/graph_utils.h>
-#include </Users/bennicholl/Desktop/dlib/dlib/graph.h>
-#include </Users/bennicholl/Desktop/dlib/dlib/directed_graph.h>
-using namespace dlib;
+#include <fstream>
 
 class word_prob {
-    
 //this map is where all of our words and word counts will go to
 std::map<std::string, int> words;
 public:
@@ -44,7 +39,6 @@ public:
                     if (*iter == '.' | *iter == '?' | *iter == '!' | *iter == ',' | *iter == '"' | *iter == ';')
                     {
                         vec.erase(vec.begin() + number);//
-                        //std::cout << vec[4] << std::endl;   //this still prints the erased char because scope is not colpeted
                         //we have to go back one in the vector so our loop doesnt iterate through the newly deleted, null value because
                         //value doesnt get deleted until after it leaves its scope, in this case the scope is current iteration in loop
                         --iter;
@@ -64,9 +58,7 @@ public:
                 else if (words.find(str) != words.end() )
                 {
                     words[str] ++;
-                }
-                //creating an iterator objcet like below is useful for using this iteration multiple times
-                //std::map<std::string, int>::iterator it =  words.find(str);
+                }              
             }
         }
         //this simply prints our our dictionary
@@ -78,9 +70,7 @@ public:
     }
     //this method turns those counted words into probability values
     void calculate_prob()
-    {
-        
-        //I might put this as a class variable if I need it again//
+    {        
         //this map will be the probability version of our words map from previous method
         std::map<std::string, float> probabilities;
         //this float will be the sum of our words map values
@@ -99,7 +89,7 @@ public:
             probabilities[i.first] = value;
         }
         
-        //this simply prints our our dictionary
+        //this simply prints our our probability map
         for (auto i : probabilities)
         {
             std::cout << i.first << i.second << std::endl;
@@ -112,11 +102,11 @@ int main(int argc, const char * argv[]) {
     //open txt file in a cpp file, and it will show you what getfile method is reading
     //you can than delete any garbage text, and resave it as a txt or cpp file
     //put a space at the end of the text
-    //ensure the path is the correct link to the text you are uploading
+    //ensure the path is the correct link to the text you are uploading, than run to upload text
     std::ifstream file("/Users/bennicholl/Desktop/Untitled.txt");
     std::string strr;
     std::string file_contents;
-    //this loop appends the words in string format to std::string file_contents variable
+    //this loop appends the words in string format to the std::string file_contents variable
     while (std::getline(file, strr))
     {
         file_contents += strr;
@@ -124,18 +114,13 @@ int main(int argc, const char * argv[]) {
     }
     //std::cout << file_contents;   //unslash to print conents
     
-    //example exerpt from braveheart
+    //example exerpt from the greatest movie ever made. (ggogle it if you dont recognize it)
     std::string text = "Steven is my name! I'm the most wanted man on my island, of course I'm not on my island. ";
     
     word_prob example;
-    
-    std::map<std::string, int> jawn;
-    jawn = example.count_words(text);
+    example.count_words(text);
     example.calculate_prob();
-    return 0;
-    
-    
-    
+    return 0; 
 };
 
 
